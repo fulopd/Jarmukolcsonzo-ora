@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.1
+-- version 4.8.2
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2019. Dec 19. 16:01
--- Kiszolgáló verziója: 10.4.8-MariaDB
--- PHP verzió: 7.3.11
+-- Létrehozás ideje: 2020. Jan 11. 11:04
+-- Kiszolgáló verziója: 10.1.34-MariaDB
+-- PHP verzió: 7.2.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,8 +19,10 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Adatbázis: `jarmukolcsonzo`
+-- Adatbázis: `jarmukolcsonzo2`
 --
+CREATE DATABASE IF NOT EXISTS `jarmukolcsonzo2` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `jarmukolcsonzo2`;
 
 -- --------------------------------------------------------
 
@@ -29,18 +31,19 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `jarmu` (
-  `rendszam` int(6) NOT NULL,
+  `Id` int(11) NOT NULL,
+  `rendszam` varchar(10) NOT NULL,
   `kategoriaId` int(11) NOT NULL,
-  `tipus` varchar(50) NOT NULL,
-  `modell` varchar(50) NOT NULL,
-  `ferohely` int(2) NOT NULL,
-  `fogyasztas` int(2) NOT NULL,
-  `elerheto` tinyint(1) NOT NULL,
-  `szervizben` tinyint(1) NOT NULL,
-  `szervizDatum` datetime NOT NULL DEFAULT current_timestamp(),
-  `muszakiDatum` datetime NOT NULL DEFAULT current_timestamp(),
-  `beszerzesDatum` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `tipus` varchar(50) DEFAULT NULL,
+  `modell` varchar(50) DEFAULT NULL,
+  `ferohely` int(2) DEFAULT NULL,
+  `fogyasztas` double DEFAULT NULL,
+  `elerheto` tinyint(1) DEFAULT NULL,
+  `szervizben` tinyint(1) DEFAULT NULL,
+  `szervizDatum` datetime DEFAULT NULL,
+  `muszakiDatum` datetime DEFAULT NULL,
+  `beszerzesDatum` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -51,16 +54,14 @@ CREATE TABLE `jarmu` (
 CREATE TABLE `jarmukategoria` (
   `Id` int(11) NOT NULL,
   `kategoriaNev` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- A tábla adatainak kiíratása `jarmukategoria`
 --
 
 INSERT INTO `jarmukategoria` (`Id`, `kategoriaNev`) VALUES
-(1, 'Személygépkocsi'),
-(2, 'Teherautó'),
-(3, 'Kamion0');
+(1, 'Személygépkocsi');
 
 --
 -- Indexek a kiírt táblákhoz
@@ -70,7 +71,8 @@ INSERT INTO `jarmukategoria` (`Id`, `kategoriaNev`) VALUES
 -- A tábla indexei `jarmu`
 --
 ALTER TABLE `jarmu`
-  ADD PRIMARY KEY (`rendszam`),
+  ADD PRIMARY KEY (`Id`),
+  ADD UNIQUE KEY `rendszam` (`rendszam`),
   ADD KEY `kategoriaId` (`kategoriaId`);
 
 --
@@ -84,10 +86,16 @@ ALTER TABLE `jarmukategoria`
 --
 
 --
+-- AUTO_INCREMENT a táblához `jarmu`
+--
+ALTER TABLE `jarmu`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT a táblához `jarmukategoria`
 --
 ALTER TABLE `jarmukategoria`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Megkötések a kiírt táblákhoz
