@@ -91,6 +91,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>JKModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\Partials\JarmuKategoriaPartial.cs" />
+    <Compile Include="Presenters\JarmuKategoriaListaPresenter.cs" />
     <Compile Include="Presenters\JarmuKategoriaPresenter.cs" />
     <Compile Include="Presenters\JarmuListaPresenter.cs" />
     <Compile Include="Program.cs" />
@@ -103,12 +105,19 @@
     <Compile Include="Repositories\JarmuKategoriaRepository.cs" />
     <Compile Include="Repositories\JarmuListaRepository.cs" />
     <Compile Include="ViewInterfaces\IDataGridList.cs" />
+    <Compile Include="ViewInterfaces\IJarmuKategoriaView.cs" />
     <Compile Include="ViewInterfaces\IJarmuListaView.cs" />
     <Compile Include="Views\JarmuKategoriaForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Views\JarmuKategoriaForm.Designer.cs">
       <DependentUpon>JarmuKategoriaForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\JarmuKategoriaListaForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\JarmuKategoriaListaForm.Designer.cs">
+      <DependentUpon>JarmuKategoriaListaForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\JarmuListaForm.cs">
       <SubType>Form</SubType>
@@ -129,6 +138,9 @@
     <EmbeddedResource Include="Resources\Icons.resx" />
     <EmbeddedResource Include="Views\JarmuKategoriaForm.resx">
       <DependentUpon>JarmuKategoriaForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\JarmuKategoriaListaForm.resx">
+      <DependentUpon>JarmuKategoriaListaForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\JarmuListaForm.resx">
       <DependentUpon>JarmuListaForm.cs</DependentUpon>

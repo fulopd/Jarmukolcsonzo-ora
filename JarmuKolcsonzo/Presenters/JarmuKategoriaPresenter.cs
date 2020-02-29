@@ -11,32 +11,42 @@ namespace JarmuKolcsonzo.Presenters
 {
     public class JarmuKategoriaPresenter
     {
-        IDataGridList<jarmukategoria> view;
+        //Csak ellenőrzésre használjuk a repot.
         JarmuKategoriaRepository repo = new JarmuKategoriaRepository();
+        IJarmuKategoriaView view;
 
-        public JarmuKategoriaPresenter(IDataGridList<jarmukategoria> param)
+        public JarmuKategoriaPresenter(IJarmuKategoriaView param)
         {
             view = param;
         }
 
-        /// <summary>
-        /// Adatok betöltése, az interfész Lista értékadása.
-        /// </summary>
-        public void LoadData()
+        public void Save(jarmukategoria jk) 
         {
-            view.bindingList = repo.GetAllKategoria(
-                view.pageNumber,
-                view.itemsPerPage,
-                view.search,
-                view.sortBy,
-                view.ascending);
-
-            view.totalItems = repo.Count();
-        }
-
-        public void Save()
-        {
-            repo.Save();
+            view.errorMessage = null;
+            if (repo.Exist(jk))
+            {
+                try
+                {
+                    //frrissítés  (adatbázis mentés még nem történik)
+                    repo.Update(jk);
+                }
+                catch (Exception ex)
+                {
+                    view.errorMessage = ex.Message;
+                }
+            }
+            else
+            {
+                try
+                {
+                    //új elemhozzáadása (adatbázis mentés még nem történik)
+                    repo.Insert(jk);
+                }
+                catch (Exception ex)
+                {
+                    view.errorMessage = ex.Message;
+                }
+            }
         }
     }
 }

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace JarmuKolcsonzo.Repositories
 {
-    public class JarmuKategoriaRepository
+    public class JarmuKategoriaRepository : IDisposable //destruktort hoz létre
     {
         private JKContext db = new JKContext();
         private int _totalItems;
@@ -81,9 +81,69 @@ namespace JarmuKolcsonzo.Repositories
             return _totalItems;
         }
 
+        public void Insert(jarmukategoria jk) 
+        {
+            //Ellenőrzi, hogy létezik e már az adott elem
+            if (db.jarmukategoria.Any(x => x.kategoriaNev == jk.kategoriaNev))
+            {
+                //az egész metódust így belerakhatjuk egy try-chatch-be (presenterbe)
+                throw new Exception("Már létezik ilyen jármű kategória");
+            }
+            else
+            {
+                db.jarmukategoria.Add(jk);
+            }            
+        }
+
+        public void Delete(int id) 
+        {
+            var jk = db.jarmukategoria.Find(id);
+
+            if (jk != null)
+            {
+                db.jarmukategoria.Remove(jk);
+            }
+        }
+
+        public void Update(jarmukategoria param) 
+        {
+            var db_jk = db.jarmukategoria.Find(param.Id);
+            if (db_jk != null)
+            {
+                //Az összes értéket frissiti a paraméter értékeivel
+                db.Entry(db_jk).CurrentValues.SetValues(param);
+
+                //Ha csak egy mezőt akarunk frissiteni
+                //db_jk.kategoriaNev = param.kategoriaNev;
+                //db.SaveChanges();
+            }
+        }
+        
         public void Save()
         {
             db.SaveChanges();
+        }
+
+        public bool Exist(jarmukategoria jk) 
+        {
+            return db.jarmukategoria.Any(x => x.Id == jk.Id);
+        }
+
+        public void Dispose()
+        {
+            //Destruktor előtti műveletek (hogy usingal is tudjuk használni)
+            Dispose(true);
+            //Memória felszabadítása
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing) 
+        {
+            if (disposing)
+            {
+                //Adatbáziskapcsolatot is zárja le
+                db.Dispose();
+            }
         }
     }
 }
