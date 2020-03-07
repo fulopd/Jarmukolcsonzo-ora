@@ -30,6 +30,7 @@ namespace JarmuKolcsonzo.Views
         }
 
         public jarmukategoria jarmukategoria {
+
             get 
             {
                 var jk = new jarmukategoria(textBoxKategoriaNevText.Text);
